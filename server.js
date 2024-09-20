@@ -15,7 +15,7 @@ const passUserToView = require('./middleware/pass-user-to-view.js')
 const authController = require('./controllers/auth.js');
 const applicationsController = require('./controllers/applications.js')
 
-const port = process.env.PORT ? process.env.PORT : '3004';
+const port = process.env.PORT ? process.env.PORT : '3007';
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -34,19 +34,20 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use(morgan('dev'))
 // =================== Routes ================== //
 app.use(passUserToView)
 
 app.get('/', (req, res) => {
+    console.log(req.session)
     if(req.session.user) {
       res.redirect(`/users/${req.session.user._id}/applications`)
     }else{
-      res.redirect('/')
+      res.render('index.ejs')
     }
   })
 
-app.use('/auth', authController);
+app.use('/auth', authController)
 app.use(isSignedIn)
 app.use('/users/:userId/applications', applicationsController)
 
