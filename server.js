@@ -1,5 +1,4 @@
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -10,10 +9,11 @@ const session = require('express-session');
 // =============== require middleware ===================== //
 
 const isSignedIn = require('./middleware/is-signed-in.js')
-const passUserToView = require('./middleware/is-signed-in.js')
+const passUserToView = require('./middleware/pass-user-to-view.js')
 
-// =============== Controllers ===================== //
+// =============== Controllers =========================== //
 const authController = require('./controllers/auth.js');
+const applicationsController = require('./controllers/applications.js')
 
 const port = process.env.PORT ? process.env.PORT : '3004';
 
@@ -36,18 +36,23 @@ app.use(
 );
 
 // =================== Routes ================== //
-
-app.get('/', (req, res) => {
-  res.render('index.ejs', {
-    user: req.session.user,
-  });
-});
-
-app.use(isSignedIn)
 app.use(passUserToView)
 
+app.get('/', (req, res) => {
+    if(req.session.user) {
+      res.redirect(`/users/${req.session.user._id}/applications`)
+    }else{
+      res.redirect('/')
+    }
+  })
 
 app.use('/auth', authController);
+app.use(isSignedIn)
+app.use('/users/:userId/applications', applicationsController)
+
+
+
+
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
