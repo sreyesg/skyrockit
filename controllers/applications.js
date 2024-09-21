@@ -59,9 +59,40 @@ router.delete('/:applicationId', async(req,res) => {
         console.log(error)
         res.redirect('/')
     }
-
+    
 })
 
+// ============== send edit page =================== //
+router.get('/:applicationId/edit', async(req,res) => {
+    try{
+        const currentUser = await User.findById(req.session.user._id)
+        const application = currentUser.applications.id(req.params.applicationId)
+        res.render('applications/edit.ejs', {
+            application,
+        })
+    }catch(error){
+        console.log(error)
+        res.redirect('/')
+    }
+})
+
+// ============== edit database (put) =================== //
+router.put('/:applicationId', async(req, res) =>{
+    try {
+        console.log('you reach edit database route')
+        const currentUser = await User.findById(req.session.user._id)
+        const application = currentUser.applications.id(req.params.applicationId)
+        application.set(req.body)
+        await currentUser.save()
+        res.redirect(
+            `/users/${currentUser._id}/applications/${req.params.applicationId}`
+        )
+        
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+})
 
 
 module.exports = router
