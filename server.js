@@ -36,7 +36,7 @@ app.use(
 );
 app.use(morgan('dev'))
 // =================== Routes ================== //
-app.use(passUserToView)
+app.use(passUserToView) // add user object from req.session (cookie)
 
 app.get('/', (req, res) => {
     console.log(req.session)
