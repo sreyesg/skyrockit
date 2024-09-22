@@ -39,12 +39,9 @@ body {
     align-items: center;
     height: 100%;
   }
-  /* .text-container{
+  .auth-links {
     display: flex;
-  } */
-  .auth-links{
-    display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 0 80px 0 0;
