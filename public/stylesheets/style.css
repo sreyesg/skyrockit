@@ -113,3 +113,32 @@ input {
     margin: 15px 0;
     font-size: 1.1em;
   }
+  .all-apps-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .all-apps-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 90%;
+  }
+    
+.add-app-link {
+    padding: 10px;
+    background-color: #ce4866;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    font-size: 1.1em;
+    padding: 2px 25px;
+    text-decoration: none;
+  }
+   
+.add-app-link:hover {
+    background-color: #e84a6c;
+  }
